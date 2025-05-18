@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Image Composer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Comfortaa:wght@300..700&family=Playwrite+DE+Grund:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, #0f0c29 0%, #302b63 40%, #24243e 100%);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 40px;
+      background: linear-gradient(to right, #ff0080, #7928ca);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .upload-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+
+    .upload-box {
+      flex: 1 1 300px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .upload-box:hover {
+      transform: scale(1.03);
+    }
+
+    .upload-box label {
+      display: block;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .upload-box input[type="file"] {
+      margin-bottom: 15px;
+    }
+
+    .upload-box img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+      border: 2px solid #ff0080;
+    }
+
+    .generate-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 35px;
+      font-size: 18px;
+      background: linear-gradient(to right, #ff0080, #7928ca);
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.4s ease;
+      box-shadow: 0 0 10px #ff0080;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff0080;
+    }
+
+    .ai-info {
+      margin-top: 60px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 0, 128, 0.2);
+    }
+
+    .ai-info h2 {
+      color: #ff79c6;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .ai-info p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>HTS Virtual Trail Room</h1>
+    <form action="/generate" method="post" enctype="multipart/form-data">
+      <div class="upload-section">
+        <div class="upload-box">
+          <label>Upload Your Image</label>
+          <input type="file" name="user_image" accept="image/*" onchange="loadImage(event, 'user-img')">
+          {% if user_image_path %}
+          <img id="user-img" src="/{{ user_image_path }}">
+          {% else %}
+          <img id="user-img">
+          {% endif %}
+        </div>
+
+        <div class="upload-box">
+          <label>Upload Product Image</label>
+          <input type="file" name="product_image" accept="image/*" onchange="loadImage(event, 'product-img')">
+          {% if product_image_path %}
+          <img id="product-img" src="/{{ product_image_path }}">
+          {% else %}
+          <img id="product-img">
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="generate-section">
+        <button type="submit">See the Magic</button>
+      </div>
+
+      {% if result_image_path %}
+      <div class="upload-box">
+        <label>Result Image</label>
+        <img src="/{{ result_image_path }}">
+        <br><br>
+        <a href="/download/{{ result_image_path.split('/')[-1] }}">
+          <button type="button">Download Result</button>
+        </a>
+      </div>
+      {% endif %}
+    </form>
+
+    <div class="ai-info">
+      <h2>Transforming Industries with AI</h2>
+      <p>
+        Our team of AI experts works tirelessly to integrate machine learning algorithms, data analytics, and intelligent automation into your operations. Whether you're looking to improve customer experiences, optimize operations, or unlock new business opportunities, we provide tailored AI solutions to meet your needs.
+      </p>
+      <p><strong>Predictive Analytics:</strong> Leverage data-driven insights to predict trends, customer behavior, and market shifts, empowering your business to make proactive decisions.</p>
+      <p><strong>Automation:</strong> Streamline repetitive tasks and processes with intelligent automation, reducing costs and boosting productivity.</p>
+      <p><strong>Natural Language Processing (NLP):</strong> Enhance customer interactions with AI-powered chatbots, virtual assistants, and sentiment analysis for improved communication and engagement.</p>
+      <p><strong>Computer Vision:</strong> Unlock the potential of visual data with AI that enables image recognition, object detection, and facial recognition to enhance security, operations, and customer experiences.</p>
+    </div>
+  </div>
+
+  <script>
+    function loadImage(event, imgId) {
+      const img = document.getElementById(imgId);
+      img.src = URL.createObjectURL(event.target.files[0]);
+    }
+  </script>
+</body>
+</html>
