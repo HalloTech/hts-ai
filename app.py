@@ -61,12 +61,19 @@ def generate():
         result_path = os.path.join(RESULT_FOLDER, result_filename)
         combined.save(result_path)
 
-        return render_template('index.html', 
-                               user_image_path=user_path, 
-                               product_image_path=product_path,
-                               result_image_path=result_path)
+        # Convert absolute paths to relative paths from 'static/' folder
+        user_image_path = os.path.relpath(user_path, 'static')
+        product_image_path = os.path.relpath(product_path, 'static')
+        result_image_path = os.path.relpath(result_path, 'static')
 
-    return "Upload failed", 400
+
+        return render_template('index.html', 
+                       user_image_path=user_image_path, 
+                       product_image_path=product_image_path,
+                       result_image_path=result_image_path)
+
+
+        return "Upload failed", 400
 
 
 @app.route('/download/<filename>')
