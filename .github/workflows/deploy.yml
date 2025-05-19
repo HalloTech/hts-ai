@@ -46,6 +46,6 @@ jobs:
           docker run -d -p 5000:5000 --name hts-ai-cont murtaza007/hts-ai:latest
           sudo systemctl start nginx
 
-          echo "✅ Deployment successful"
+          echo "✅ Deployment successful completed"
 
 
